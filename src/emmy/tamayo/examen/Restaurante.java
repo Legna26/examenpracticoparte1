@@ -30,7 +30,9 @@ public class Restaurante {
 		
 		rest.mostrarPlatosDisponibles (carta1 , carta2);
 		
-		int numeroCarta = rest.seleccionarCarta(carta1 , carta2);
+		Carta cartaElegida = rest.seleccionarCarta(carta1 , carta2);
+		
+		rest.mostrarPrecios(cartaElegida);
 		
 	}
 
@@ -55,21 +57,44 @@ public class Restaurante {
 
 	}
 	
-	public int seleccionarCarta(Carta ... cartas) {
+	public Carta seleccionarCarta(Carta ... cartas) {
 		
 		System.out.println("Bienvenido al Restaurante " + nombre + ". Las cartas a elegir son: ");
 		System.out.println("=============================================");
-		for (Carta cartita : cartas) {
-			mostrarPlatosDisponibles(cartita);
+		Carta [] cartita = cartas;
+		for (int i=0 ; i<cartita.length ; i++) {
+			System.out.println((i+1) + ". "+ cartita[i].getNombre());
 		}
-		int numeroCarta = Utilidades.pideDatoNumerico("¿Qué carta desea?\n1. Menú del día. \n2. Acompañantes");
-				
-		return numeroCarta;
+		
+		int numeroCarta = Utilidades.pideDatoNumerico("¿Qué carta desea?");
+		
+		Carta cartaElegida = cartita [numeroCarta-1];
+		return cartaElegida;
 	}
 	
- public void mostrarPrecios(int numCarta, Carta carta) {
+	public void mostrarPrecios(Carta carta) {
 	 
-	 
- }
+		System.out.println("Los precios de la carta " + carta.getNombre() + " son:");
+				
+		Plato[] platos = carta.getPlatos();
+		Bebida [] bebidas = carta.getBebidas();
+		
+		double precioTotalPlatos = 0;
+		double precioTotalBebidas = 0;
+		for (int i=0 ; i<platos.length ; i++) {
+			System.out.println(platos[i].getNombre() + " - precio: " + platos[i].getPrecio());
+			double precioPlato = platos[i].getPrecio();
+			precioTotalPlatos += precioPlato;
+		}
+		
+		
+		for (int i=0 ; i<bebidas.length ; i++) {
+			System.out.println(bebidas[i].getNombre() + " - precio: " + bebidas[i].getPrecio());
+			double precioBebida = bebidas[i].getPrecio();
+			precioTotalBebidas += precioBebida;
+		}
+		
+		System.out.println("El precio total del menú es: " + (precioTotalPlatos+precioTotalBebidas));
+	}
 	
 }
